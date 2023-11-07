@@ -21,7 +21,7 @@
     <ClCompile Include="BruteForce.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="Random.cpp">
+    <ClCompile Include="MyFunctions.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="DynamicProgramming.cpp">
@@ -32,7 +32,7 @@
     <ClInclude Include="BruteForce.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="Random.h">
+    <ClInclude Include="MyFunctions.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="DynamicProgramming.h">
@@ -41,6 +41,39 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="tsp_10.txt">
+      <Filter>Pliki zasobów</Filter>
+    </Text>
+    <Text Include="tsp_6_1.txt">
+      <Filter>Pliki zasobów</Filter>
+    </Text>
+    <Text Include="tsp_6_2.txt">
+      <Filter>Pliki zasobów</Filter>
+    </Text>
+    <Text Include="tsp_12.txt">
+      <Filter>Pliki zasobów</Filter>
+    </Text>
+    <Text Include="tsp_13.txt">
+      <Filter>Pliki zasobów</Filter>
+    </Text>
+    <Text Include="tsp_14.txt">
+      <Filter>Pliki zasobów</Filter>
+    </Text>
+    <Text Include="tsp_15.txt">
+      <Filter>Pliki zasobów</Filter>
+    </Text>
+    <Text Include="tsp_17.txt">
+      <Filter>Pliki zasobów</Filter>
+    </Text>
+    <Text Include="tsp_17_1.txt">
+      <Filter>Pliki zasobów</Filter>
+    </Text>
+    <Text Include="tsp_18_1.txt">
+      <Filter>Pliki zasobów</Filter>
+    </Text>
+    <Text Include="tsp_19_1.txt">
+      <Filter>Pliki zasobów</Filter>
+    </Text>
+    <Text Include="tsp_20_1.txt">
       <Filter>Pliki zasobów</Filter>
     </Text>
   </ItemGroup>

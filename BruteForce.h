@@ -12,7 +12,6 @@ class BruteForce {
 	int minPathLength;
 	bool* visited;
 
-	const int NO_CONNECTION = -1;
 public:
 	BruteForce();
 	~BruteForce();

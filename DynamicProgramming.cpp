@@ -1,6 +1,6 @@
 #pragma once
 #include "DynamicProgramming.h"
-#include "Random.h"
+#include "MyFunctions.h"
 #include <chrono>
 #include <iostream>
 #include <string>
@@ -34,7 +34,7 @@ DynamicProgramming::~DynamicProgramming() {
 }
 
 int DynamicProgramming::manageDynamicProgrammingMenu() {
-	int choice, numberOfV;
+	int choice, numberOfV, currCity, mask;
 	string filePath;
 
 	std::chrono::steady_clock::time_point start;
@@ -63,8 +63,6 @@ int DynamicProgramming::manageDynamicProgrammingMenu() {
 		break;
 	case 4:
 		system("CLS");
-
-
 		start = steady_clock::now();
 		solveTSP();
 		duration = steady_clock::now() - start;
@@ -72,6 +70,14 @@ int DynamicProgramming::manageDynamicProgrammingMenu() {
 		cout << "Czas wykonania: " << time << "microseconds" << endl;
 
 		cout << "Najlepsza trasa: ";
+		currCity = 0;
+		mask = 1;
+		for (int i = 0; i < numberOfCities - 1; i++) {
+			cout << currCity << "->";
+			currCity = parent[currCity][mask];
+			mask |= (1 << currCity);
+		}
+		cout << currCity << "->0" << endl;
 
 		cout << endl;
 		cout << "Dlugosc trasy: " << minPathLength << endl;
@@ -133,7 +139,7 @@ void DynamicProgramming::generateRandom(int numberOfC) {
 	for (int i = 0; i < numberOfCities; i++) {
 		for (int j = 0; j < numberOfCities; j++) {
 			if (i == j) {
-				matrix[i][j] = NO_CONNECTION;
+				matrix[i][j] = -1;
 			}
 			else {
 				matrix[i][j] = generateRandomNumber(0, 20);
@@ -143,55 +149,55 @@ void DynamicProgramming::generateRandom(int numberOfC) {
 	minPathLength = INT_MAX;
 }
 
+// Inicjalizuje tablice 'dp' oraz 'parent' do przechowywania wyników obliczeñ oraz informacji o trasach.
 void DynamicProgramming::initDPandParent() {
+	// Alokacja pamiêci dla tablicy 'dp' oraz 'parent'.
 	dp = new int* [numberOfCities];
 	parent = new int* [numberOfCities];
 	for (int i = 0; i < numberOfCities; i++) {
-		dp[i] = new int[1 << numberOfCities];
+		dp[i] = new int[1 << numberOfCities];      // U¿ycie przesuniêcia bitowego do alokacji pamiêci dla wszystkich kombinacji tras.
 		parent[i] = new int[1 << numberOfCities];
 		for (int j = 0; j < (1 << numberOfCities); j++) {
-			dp[i][j] = -1;
-			parent[i][j] = -1;
+			dp[i][j] = -1;          // Inicjalizacja tablicy 'dp' wartoœciami -1, co oznacza, ¿e dana trasa nie zosta³a jeszcze obliczona.
+			parent[i][j] = -1;      // Inicjalizacja tablicy 'parent' wartoœciami -1, co oznacza brak informacji o trasie.
 		}
 	}
 }
 
-void DynamicProgramming::solveTSP() {
-	initDPandParent();
 
-	std::function<int(int, int)> tsp = [&](int i, int mask) {
+void DynamicProgramming::solveTSP() {
+	initDPandParent();     
+
+	// Funkcja tsp korzysta z podejœcia dynamicznego do rozwi¹zania problemu TSP.
+	// Argumenty: i - obecne miasto, mask - binarny zestaw odwiedzonych miast.
+	function<int(int, int)> tsp = [&](int i, int mask) {
+		// Warunek bazowy: jeœli wszystkie miasta zosta³y odwiedzone, zwróæ odleg³oœæ powrotu do pocz¹tkowego miasta.
 		if (mask == (1 << numberOfCities) - 1) {
 			return matrix[i][0];
 		}
+		// Jeœli dana trasa zosta³a ju¿ obliczona, zwróæ zapisany wynik.
 		if (dp[i][mask] != -1) {
 			return dp[i][mask];
 		}
-		int ans = INT_MAX;
-		int bestNextCity = -1;
+		int ans = INT_MAX;          // Zmienna do przechowywania minimalnej odleg³oœci.
+		int bestNextCity = -1;      // Zmienna do przechowywania indeksu najlepszego nastêpnego miasta.
 		for (int j = 0; j < numberOfCities; j++) {
+			// Jeœli miasto 'j' nie zosta³o odwiedzone (sprawdzenie za pomoc¹ operacji bitowej AND z mask¹):
 			if (!(mask & (1 << j))) {
+				// Oblicz odleg³oœæ dla obecnej trasy, dodaj¹c odleg³oœæ od 'i' do 'j' oraz rekurencyjnie obliczaj¹c odleg³oœæ dla nastêpnego miasta.
 				int currCost = matrix[i][j] + tsp(j, mask | (1 << j));
+				// Jeœli obecna trasa jest krótsza ni¿ zapisana, zaktualizuj 'ans' i 'bestNextCity'.
 				if (currCost < ans) {
 					ans = currCost;
 					bestNextCity = j;
 				}
 			}
 		}
-		parent[i][mask] = bestNextCity;
-		return dp[i][mask] = ans;
+		parent[i][mask] = bestNextCity;     // Zapisz najlepsze nastêpne miasto dla obecnej trasy.
+		return dp[i][mask] = ans;           // Zapisz i zwróæ minimaln¹ odleg³oœæ dla obecnej trasy.
 	};
 
+	// Rozpocznij rozwi¹zanie TSP z pocz¹tkowego miasta (indeks 0) z mask¹ 1 (tylko pocz¹tkowe miasto odwiedzone).
 	minPathLength = tsp(0, 1);
-
-	// Odtworzenie œcie¿ki i wydrukowanie jej
-	cout << "Najlepsza trasa: ";
-	int currCity = 0;
-	int mask = 1;
-	for (int i = 0; i < numberOfCities - 1; i++) {
-		cout << currCity << " -> ";
-		currCity = parent[currCity][mask];
-		mask |= (1 << currCity);
-	}
-	cout << currCity << " -> 0" << endl;
 }
 

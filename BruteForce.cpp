@@ -1,6 +1,6 @@
 #pragma once
 #include "BruteForce.h"
-#include "Random.h"
+#include "MyFunctions.h"
 #include <chrono>
 #include <iostream>
 #include <string>
@@ -36,7 +36,7 @@ int BruteForce::manageBruteForceMenu() {
 
 	std::chrono::steady_clock::time_point start;
 	std::chrono::steady_clock::duration duration;
-	long time;
+	double time;
 
 	cin >> choice;
 	switch (choice) {
@@ -70,7 +70,7 @@ int BruteForce::manageBruteForceMenu() {
 		algorithm(1, initialPath);
 		duration = steady_clock::now() - start;
 		time = duration_cast<microseconds>(duration).count();
-		cout << "Czas wykonania: " << time << "microseconds" << endl;
+		cout << "Czas wykonania: " << time/1000000 << "s" << endl;
 
 		cout << "Najlepsza trasa: ";
 		for (int i = 0; i < numberOfCities; i++) {
@@ -139,7 +139,7 @@ void BruteForce::generateRandom(int numberOfC) {
 	for (int i = 0; i < numberOfCities; i++) {
 		for (int j = 0; j < numberOfCities; j++) {
 			if (i == j) {
-				matrix[i][j] = NO_CONNECTION;
+				matrix[i][j] = -1;
 			}
 			else {
 				matrix[i][j] = generateRandomNumber(0, 20);

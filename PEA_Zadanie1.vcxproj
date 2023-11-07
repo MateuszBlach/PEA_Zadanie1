@@ -130,15 +130,26 @@
     <ClCompile Include="BruteForce.cpp" />
     <ClCompile Include="DynamicProgramming.cpp" />
     <ClCompile Include="PEA_Zadanie1.cpp" />
-    <ClCompile Include="Random.cpp" />
+    <ClCompile Include="MyFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BruteForce.h" />
     <ClInclude Include="DynamicProgramming.h" />
-    <ClInclude Include="Random.h" />
+    <ClInclude Include="MyFunctions.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="tsp_10.txt" />
+    <Text Include="tsp_12.txt" />
+    <Text Include="tsp_13.txt" />
+    <Text Include="tsp_14.txt" />
+    <Text Include="tsp_15.txt" />
+    <Text Include="tsp_17.txt" />
+    <Text Include="tsp_17_1.txt" />
+    <Text Include="tsp_18_1.txt" />
+    <Text Include="tsp_19_1.txt" />
+    <Text Include="tsp_20_1.txt" />
+    <Text Include="tsp_6_1.txt" />
+    <Text Include="tsp_6_2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

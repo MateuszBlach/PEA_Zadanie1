@@ -12,8 +12,6 @@ class DynamicProgramming {
 	int** dp;  // Tablica do przechowywania wyników podproblemów
 	int** parent;  // Tablica do rekonstrukcji œcie¿ki
 
-    const int NO_CONNECTION = -1;
-
 public:
     DynamicProgramming();
     ~DynamicProgramming();
